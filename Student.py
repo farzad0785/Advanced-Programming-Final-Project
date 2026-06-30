@@ -70,7 +70,7 @@ class Student(Person):
     def gpa(self):
         total_grade_unit, self._total_unit = 0,0
         for course, grade in self._student_courses.items():
-            total_grade_unit += grade*Subject.courses[course]
+            total_grade_unit += grade*Subject.courses[course].values()
         for course in self.course_codes:
             self._total_unit += Subject.courses[course]
         self._gpa = total_grade_unit/self._total_unit
@@ -95,15 +95,6 @@ class Student(Person):
         self.course_codes.pop(course_name)
         self._student_courses.pop(course_name)
 
-    def compute_gpa(self):
-        total_grade_unit, self._total_unit = 0,0
-        for course, grade in self._student_courses.items():
-            total_grade_unit += grade*Subject.courses[course]
-        for course in self.course_codes:
-            self._total_unit += Subject.courses[course]
-        self._gpa = total_grade_unit/self._total_unit
-        return self._gpa
-
     def course_pass_check(self):
         for course,grade in self._student_courses.items():
             if grade < 10:
@@ -113,19 +104,36 @@ class Student(Person):
 
     def term_pass_check(self):
         if self.degree == "associate" or self.degree == "bachelor":
-            print("Student has failed. ") if self.gpa < 12 else print("Student has passes. ")
+            if self.gpa < 12:
+                print("Student has failed. ")
+                return False
+            else:
+                print("Student has passes. ")
+                return True
 
         elif self.degree == "master":
-            print("Student has failed. ") if self.gpa < 14 else print("Student has passes. ")
+            if self.gpa < 14:
+                print("Student has failed. ")
+                return False
+            else:
+                print("Student has passes. ")
+                return True
 
         else:
-            print("Student has failed. ") if self.gpa < 16 else print("Student has passes. ")
+            if self.gpa < 16:
+                print("Student has failed. ")
+                return False
+            else:
+                print("Student has passes. ")
+                return True
 
     def __str__(self):
         return (f"Student ID: {self.stu_id} "
                 f"Last name: {Person.l_name} | First name: {Person.f_name} "
                 f"National ID: {Person.national_id} "
-                f"Degree: {self.degree} | Term: {self.term} | gpa: {self.gpa}")
+                f"Degree: {self.degree} | Term: {self.term}"
+                f"Total unit: {self._total_unit} | gpa: {self.gpa}"
+                f"Situation: {self.term_pass_check()}")
     def __ge__(self, other):
         return self.gpa >= other.gpa
     def __eq__(self, other):

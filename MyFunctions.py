@@ -1,7 +1,7 @@
 import re
 
 def is_capitalized(text):
-    return bool(text and re.match(r'^[A_Z][a_z]*$', text))
+    return bool(text and re.match(r'^[A-Z][a-z]*$', text))
 
 def is_digits(text, amount):
     return bool(text and re.match(rf'^\d{{{amount}}}$', text))
