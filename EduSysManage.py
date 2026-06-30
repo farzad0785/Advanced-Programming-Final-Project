@@ -1,0 +1,2 @@
+class EduSysManage(object):
+    students = {}

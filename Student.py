@@ -1,0 +1,134 @@
+from Person import Person
+import MyFunctions
+from Subject import Subject
+
+class Student(Person):
+    total_students = 0
+    def __init__(self, first_name, last_name, national_id, stu_id, degree, term, courses_code_list, grades_list, ):
+        super().__init__(first_name, last_name, national_id)
+
+        self._gpa = None
+        self._student_courses = None
+        self._total_unit = None
+        self.stu_id = stu_id
+        self.course_codes = courses_code_list
+        self.stu_grades = grades_list
+        self.degree = degree
+        self.term = term
+        Student.total_students += 1
+
+    #==========PROPERTIES AND SETTERS==========
+    @property
+    def stu_id(self):
+        return self._stu_id
+    @stu_id.setter
+    def stu_id(self, new_id):
+        if not MyFunctions.is_digits(new_id, 8):
+            raise ValueError("Invalid input. Student ID must be only 8 digits. ")
+        self._stu_id = new_id
+
+    @property
+    def course_codes(self):
+        return self._course_codes
+    @course_codes.setter
+    def course_codes(self, courses_list):
+        for course in courses_list:
+            if course not in Subject.courses:
+                raise ValueError("Invalid input. Course does not exist. ")
+        self._course_codes = courses_list
+
+    @property
+    def stu_grades(self):
+        return self._stu_grades
+    @stu_grades.setter
+    def stu_grades(self, grades_list):
+        for grade in grades_list:
+            if 0 > grade or grade > 20:
+                raise ValueError("Invalid input. Grade cannot be negative or greater than 20.")
+        self._stu_grades = grades_list
+
+    @property
+    def degree(self):
+        return self._degree
+    @degree.setter
+    def degree(self, new_degree):
+        if new_degree.lower() not in ("associate","bachelor", "master", "phd"):
+            raise ValueError("Invalid input. Degrees can be 'bachelor', 'master' or 'phd'.")
+        self._degree = new_degree
+
+    @property
+    def term(self):
+        return self._term
+    @term.setter
+    def term(self, new_term):
+        try:
+            self._term = int(new_term)
+        except ValueError:
+            raise ValueError("Invalid input. Student term must be an integer. ")
+
+    @property
+    def gpa(self):
+        total_grade_unit, self._total_unit = 0,0
+        for course, grade in self._student_courses.items():
+            total_grade_unit += grade*Subject.courses[course]
+        for course in self.course_codes:
+            self._total_unit += Subject.courses[course]
+        self._gpa = total_grade_unit/self._total_unit
+        return self._gpa
+
+    #==========METHODS==========
+    def student_courses(self):
+        self._student_courses = dict(zip(self.course_codes, self.stu_grades))
+        return self._student_courses
+
+    def add_course(self, course_name, grade):
+        if course_name not in Subject.courses:
+            raise ValueError("Invalid input. Entered course does not exist. ")
+        elif course_name in self.course_codes:
+            raise ValueError("Invalid input. Student already has this course. ")
+        self._student_courses.append(course_name)
+        self._student_courses[course_name] = grade
+
+    def remove_course(self, course_name):
+        if course_name not in self.course_codes:
+            raise ValueError("Invalid input. Student does not have this course. ")
+        self.course_codes.pop(course_name)
+        self._student_courses.pop(course_name)
+
+    def compute_gpa(self):
+        total_grade_unit, self._total_unit = 0,0
+        for course, grade in self._student_courses.items():
+            total_grade_unit += grade*Subject.courses[course]
+        for course in self.course_codes:
+            self._total_unit += Subject.courses[course]
+        self._gpa = total_grade_unit/self._total_unit
+        return self._gpa
+
+    def course_pass_check(self):
+        for course,grade in self._student_courses.items():
+            if grade < 10:
+                print(f"Student has failed course: {course} | Grade: {grade}")
+            else:
+                print(f"Student has passed course: {course} | Grade: {grade}")
+
+    def term_pass_check(self):
+        if self.degree == "associate" or self.degree == "bachelor":
+            print("Student has failed. ") if self.gpa < 12 else print("Student has passes. ")
+
+        elif self.degree == "master":
+            print("Student has failed. ") if self.gpa < 14 else print("Student has passes. ")
+
+        else:
+            print("Student has failed. ") if self.gpa < 16 else print("Student has passes. ")
+
+    def __str__(self):
+        return (f"Student ID: {self.stu_id} "
+                f"Last name: {Person.l_name} | First name: {Person.f_name} "
+                f"National ID: {Person.national_id} "
+                f"Degree: {self.degree} | Term: {self.term} | gpa: {self.gpa}")
+    def __ge__(self, other):
+        return self.gpa >= other.gpa
+    def __eq__(self, other):
+        return self.gpa == other.gpa
+    def __le__(self, other):
+        return self.gpa <= other.gpa
