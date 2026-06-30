@@ -4,15 +4,14 @@ from Subject import Subject
 
 class Student(Person):
     total_students = 0
-    def __init__(self, first_name, last_name, national_id, stu_id, degree, term, courses_code_list, grades_list, ):
+    def __init__(self, first_name, last_name, national_id, stu_id, degree, term, courses_code_list, stu_grades_list, ):
         super().__init__(first_name, last_name, national_id)
-
         self._gpa = None
         self._student_courses = None
         self._total_unit = None
         self.stu_id = stu_id
-        self.course_codes = courses_code_list
-        self.stu_grades = grades_list
+        self.stu_courses_code = courses_code_list
+        self.stu_grades = stu_grades_list
         self.degree = degree
         self.term = term
         Student.total_students += 1
@@ -28,14 +27,14 @@ class Student(Person):
         self._stu_id = new_id
 
     @property
-    def course_codes(self):
-        return self._course_codes
-    @course_codes.setter
-    def course_codes(self, courses_list):
-        for course in courses_list:
+    def stu_courses_code(self):
+        return self._stu_courses_code
+    @stu_courses_code.setter
+    def stu_courses_code(self, courses_code_list):
+        for course in courses_code_list:
             if course not in Subject.courses:
                 raise ValueError("Invalid input. Course does not exist. ")
-        self._course_codes = courses_list
+        self._stu_courses_code = courses_code_list
 
     @property
     def stu_grades(self):
@@ -68,31 +67,31 @@ class Student(Person):
 
     @property
     def gpa(self):
-        total_grade_unit, self._total_unit = 0,0
-        for course, grade in self._student_courses.items():
-            total_grade_unit += grade*Subject.courses[course].values()
-        for course in self.course_codes:
-            self._total_unit += Subject.courses[course]
-        self._gpa = total_grade_unit/self._total_unit
+        total_grade_and_unit, self._total_unit = 0,0
+        for course_code, grade in self._student_courses.items():
+            total_grade_and_unit += grade * Subject.courses[course_code]["unit"]
+        for course_code in self.stu_courses_code:
+            self._total_unit += Subject.courses[course_code]
+        self._gpa = total_grade_and_unit / self._total_unit
         return self._gpa
 
     #==========METHODS==========
     def student_courses(self):
-        self._student_courses = dict(zip(self.course_codes, self.stu_grades))
+        self._student_courses = dict(zip(self.stu_courses_code, self.stu_grades))
         return self._student_courses
 
-    def add_course(self, course_name, grade):
-        if course_name not in Subject.courses:
+    def add_course(self, course_code, grade):
+        if course_code not in Subject.courses:
             raise ValueError("Invalid input. Entered course does not exist. ")
-        elif course_name in self.course_codes:
+        elif course_code in self.stu_courses_code:
             raise ValueError("Invalid input. Student already has this course. ")
-        self._student_courses.append(course_name)
-        self._student_courses[course_name] = grade
+        self._student_courses.append(course_code)
+        self._student_courses[course_code] = grade
 
     def remove_course(self, course_name):
-        if course_name not in self.course_codes:
+        if course_name not in self.stu_courses_code:
             raise ValueError("Invalid input. Student does not have this course. ")
-        self.course_codes.pop(course_name)
+        self.stu_courses_code.pop(course_name)
         self._student_courses.pop(course_name)
 
     def course_pass_check(self):
@@ -133,7 +132,8 @@ class Student(Person):
                 f"National ID: {Person.national_id} "
                 f"Degree: {self.degree} | Term: {self.term}"
                 f"Total unit: {self._total_unit} | gpa: {self.gpa}"
-                f"Situation: {self.term_pass_check()}")
+                f"Pass/Fail: {self.term_pass_check()}" )
+
     def __ge__(self, other):
         return self.gpa >= other.gpa
     def __eq__(self, other):
