@@ -111,6 +111,10 @@ class Student(Person):
         else:
             return self.gpa >= 16
 
+    def show_transcript(self):
+        print("="*25)
+
+    #==========DUNDER METHODS==========
     def __str__(self):
         return (f"Student ID: {self.stu_id} "
                 f"Last name: {self.l_name} | First name: {self.f_name} "
@@ -120,7 +124,9 @@ class Student(Person):
 
     def __ge__(self, other):
         return self.gpa >= other.gpa
+
     def __eq__(self, other):
         return self.gpa == other.gpa
+
     def __le__(self, other):
         return self.gpa <= other.gpa
