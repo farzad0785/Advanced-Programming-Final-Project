@@ -25,7 +25,6 @@ class Subject(object):
         return self._course_name
     @course_name.setter
     def course_name(self, new_name):
-        Subject.courses[self.course_code]["course name"] = new_name
         self._course_name = new_name
 
     @property
@@ -35,8 +34,16 @@ class Subject(object):
     def course_unit(self, new_unit):
         try:
             self._course_unit = int(new_unit)
-            Subject.courses[self.course_code]["unit"] = self._course_unit
         except ValueError:
             raise ValueError("Invalid input. Course unit must be an integer.")
 
-    #==========METHODS==========
+    #==========DUNDER METHODS==========
+    def __str__(self):
+        return f"Course code: {self.course_code} | Course name: {self.course_name} | Course unit: {self.course_unit}"
+
+    def __eq__(self, other):
+        return self.course_unit == other.course_unit
+    def __ge__(self, other):
+        return self.course_unit >= other.course_unit
+    def __le__(self, other):
+        return self.course_unit <= other.course_unit
