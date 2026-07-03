@@ -87,6 +87,25 @@ class Student(Person):
             raise ValueError("Invalid input. NUmber of courses and grades does not match. ")
         self._student_courses = dict(zip(self.stu_courses_code, self.stu_grades))
 
+    def add_course(self, course_code, grade):
+        if course_code not in Subject.courses:
+            raise ValueError("Invalid input. Entered course does not exist. ")
+        elif course_code in self.stu_courses_code:
+            raise ValueError("Invalid input. Student already has this course. ")
+        elif grade < 0 or 20 < grade:
+            raise ValueError("Invalid input. Student grade cannot be negative or greater than 20. ")
+
+        self._student_courses[course_code] = grade
+        self.stu_courses_code.append(course_code)
+
+    def remove_course(self, course_name):
+        if course_name not in self.stu_courses_code:
+            raise ValueError("Invalid input. Student does not have this course. ")
+
+        idx = self.stu_courses_code.index(course_name)
+        self.stu_grades.pop(idx)
+        self.stu_courses_code.remove(course_name)
+        self._student_courses.pop(course_name)
 
     def course_pass_check(self):
         print(f"{'Code':<12} {'Name':<20} {'Grade':<6} {'Unit':<6} {'Status':<8}")
