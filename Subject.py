@@ -1,4 +1,4 @@
-import MyFunctions
+import Utils
 class Subject(object):
     courses = {}
     def __init__(self, course_code, course_name, course_unit):
@@ -16,7 +16,7 @@ class Subject(object):
         return self._course_code
     @course_code.setter
     def course_code(self, new_code):
-        if not MyFunctions.is_digits(new_code, 10):
+        if not Utils.is_digits(new_code, 10):
             raise ValueError("Invalid input. Course code must have only 10 digits. ")
         self._course_code = new_code
 

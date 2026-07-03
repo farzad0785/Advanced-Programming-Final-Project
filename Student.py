@@ -1,5 +1,5 @@
 from Person import Person
-import MyFunctions
+import Utils
 from Subject import Subject
 
 class Student(Person):
@@ -22,7 +22,7 @@ class Student(Person):
         return self._stu_id
     @stu_id.setter
     def stu_id(self, new_id):
-        if not MyFunctions.is_digits(new_id, 8):
+        if not Utils.is_digits(new_id, 8):
             raise ValueError("Invalid input. Student ID must be only 8 digits. ")
         self._stu_id = new_id
 

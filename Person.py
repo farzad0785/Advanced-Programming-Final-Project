@@ -1,4 +1,4 @@
-from MyFunctions import is_capitalized, is_digits
+from Utils import is_capitalized, is_digits
 class Person(object):
     def __init__(self, first_name, last_name, national_id):
         self.f_name = first_name
