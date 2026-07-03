@@ -13,7 +13,7 @@ class Student(Person):
         self.stu_grades = stu_grades_list
         self.degree = degree
         self.term = term
-        self.student_courses()
+        self._build_student_courses()
         Student.total_students += 1
 
     #==========PROPERTIES AND SETTERS==========
@@ -82,21 +82,22 @@ class Student(Person):
         return self._gpa
 
     #==========METHODS==========
-    def student_courses(self):
+    def _build_student_courses(self):
         if len(self.stu_courses_code) != len(self.stu_grades):
             raise ValueError("Invalid input. NUmber of courses and grades does not match. ")
         self._student_courses = dict(zip(self.stu_courses_code, self.stu_grades))
 
-    def add_course(self, course_code, grade):
+    def add_course(self, course_code, course_grade):
         if course_code not in Subject.courses:
             raise ValueError("Invalid input. Entered course does not exist. ")
         elif course_code in self.stu_courses_code:
             raise ValueError("Invalid input. Student already has this course. ")
-        elif grade < 0 or 20 < grade:
+        elif course_grade < 0 or 20 < course_grade:
             raise ValueError("Invalid input. Student grade cannot be negative or greater than 20. ")
 
-        self._student_courses[course_code] = grade
+        self._student_courses[course_code] = course_grade
         self.stu_courses_code.append(course_code)
+        self.stu_grades.append(course_grade)
 
     def remove_course(self, course_name):
         if course_name not in self.stu_courses_code:
