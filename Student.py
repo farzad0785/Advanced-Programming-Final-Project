@@ -109,15 +109,17 @@ class Student(Person):
         self._student_courses.pop(course_name)
 
     def course_pass_check(self):
-        print(f"{'Code':<12} {'Name':<20} {'Grade':<6} {'Unit':<6} {'Status':<8}")
+        result = []
+        result.append(f"{'Code':<12} {'Name':<20} {'Grade':<6} {'Unit':<6} {'Status':<8}")
 
         for course_code,grade in self._student_courses.items():
             status = "PASS"
             if grade < 10:
                 status = "FAIL"
             course_info = Subject.courses[course_code]
-            print(f"{course_code:<12} {course_info['course name']:<20} {grade:<6} "
+            result.append(f"{course_code:<12} {course_info['course name']:<20} {grade:<6} "
                   f"{course_info['course unit']:<6} {status:<8}")
+        return "\n".join(result)
 
     def term_pass_check(self):
         if self.degree in ("associate", "bachelor"):
@@ -128,21 +130,24 @@ class Student(Person):
             return self.gpa >= 16
 
     def show_transcript(self):
-        print("="*50)
-        print(f"TRANSCRIPT FOR: {self.l_name} {self.f_name}")
+        result = []
+        result.append("="*50)
+        result.append(f"TRANSCRIPT FOR: {self.l_name} {self.f_name}")
 
-        print("-"*50)
-        print(f"Student ID: {self.stu_id} | National ID: {self.national_id}")
+        result.append("-"*50)
+        result.append(f"Student ID: {self.stu_id} | National ID: {self.national_id}")
 
-        print("-"*50)
-        print(f"Degree: {self.degree} | Term: {self.term}")
+        result.append("-"*50)
+        result.append(f"Degree: {self.degree} | Term: {self.term}")
 
-        print("-"*50)
-        self.course_pass_check()
+        result.append("-"*50)
+        result.append(self.course_pass_check())
 
-        print(f"GPA: {self.gpa} | Total unit: {self.total_unit}")
+        result.append(f"GPA: {self.gpa} | Total unit: {self.total_unit}")
         status = "PASSED" if self.term_pass_check() else "FAILED"
-        print(f"STATUS: {status}")
+        result.append(f"STATUS: {status}")
+
+        return "\n".join(result)
 
     #==========DUNDER METHODS==========
     def __str__(self):
