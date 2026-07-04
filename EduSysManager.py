@@ -48,5 +48,9 @@ class EduSysManage(object):
     def sort_students(choice):
         """returns sorted student based on their choice. """
         students_list = list(EduSysManage.students.items())
-        return merge_sort(students_list, choice)
-
+        sorted_students = merge_sort(students_list, choice)
+        result = []
+        #Needs formation
+        for student in sorted_students:
+            result.append(student)
+        return "\n".join(result)
