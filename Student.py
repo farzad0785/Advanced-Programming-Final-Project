@@ -87,6 +87,10 @@ class Student(Person):
             raise ValueError("Invalid input. NUmber of courses and grades does not match. ")
         self._student_courses = dict(zip(self.stu_courses_code, self.stu_grades))
 
+    def get_grades(self):
+        """Public method to access the protected attribute. """
+        return self._student_courses
+
     def add_course(self, course_code, course_grade):
         if course_code not in Subject.courses:
             raise ValueError("Invalid input. Entered course does not exist. ")
