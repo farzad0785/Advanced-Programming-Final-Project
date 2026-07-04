@@ -1,17 +1,48 @@
 import numpy as np
 from EduSysManager import EduSysManage
-from Subject import Subject
 
 class Analytics(object):
     def __init__(self):
         self.system = EduSysManage
 
-    def all_grades_np(self):
+    def all_grades_np(self, basis, key):
+        if basis.lower() not in ("all", "course", "term", "degree"):
+            raise ValueError("Invalid input. statistical is only available for ('all', 'course', 'term', 'degree')")
         all_grades = []
-        for stu_id, student in self.system.students.items():
-            for course_code, stu_grade in student._student_course.items():
-                all_grades.append(stu_grade)
-        return np.array(all_grades)
+        if basis.lower() == "course":
+            for student in self.system.students.values():
+                for course, grade in student._student_courses.items():
+                    if course == key:
+                        all_grades.append(grade)
 
-    def course_analysis(self, course_code):
-        pass
+        elif basis.lower() == "term":
+            for student in self.system.students.values():
+                if student.term == key:
+                    all_grades.extend(student.stu_grades)
+
+        elif basis.lower() == "degree":
+            for student in self.system.students.values():
+                if student.degree == key:
+                    all_grades.extend(student.stu_grades)
+
+        else:
+            for student in self.system.students.values():
+                all_grades.extend(student.stu_grades)
+
+        return np.array(all_grades, dtype=np.float32)
+
+    def get_stats(self, basis, key=None):
+        grades_array = self.all_grades_np(basis, key)
+        if len(grades_array) == 0:
+            raise ValueError("Invalid input. No grades found for the entered filter. ")
+        result = []
+        result.append("="*50)
+        result.append(f"Statistical and analysis for grades based on {basis}, and {key}:")
+        result.append(f"Max grade: {grades_array.max()}")
+        result.append(f"Min grade: {grades_array.min()}")
+        result.append(f"Mean grade: {grades_array.mean()}")
+        result.append(f"Std grade: {grades_array.std()}")
+        result.append(f"How many passed: {np.sum(10 <= grades_array)}")
+        result.append(f"How many failed: {np.sum(10 > grades_array)}")
+
+        return "\n".join(result)
