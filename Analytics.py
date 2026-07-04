@@ -11,7 +11,7 @@ class Analytics(object):
         all_grades = []
         if basis.lower() == "course":
             for student in self.system.students.values():
-                for course, grade in student._student_courses.items():
+                for course, grade in student.get_graded.items():
                     if course == key:
                         all_grades.append(grade)
 
@@ -36,8 +36,9 @@ class Analytics(object):
         if len(grades_array) == 0:
             raise ValueError("Invalid input. No grades found for the entered filter. ")
         result = []
+        key_str = key if key else "all students"
         result.append("="*50)
-        result.append(f"Statistical and analysis for grades based on {basis}, and {key}:")
+        result.append(f"Statistical analysis for grades based on {basis}: {key_str}")
         result.append(f"Max grade: {grades_array.max()}")
         result.append(f"Min grade: {grades_array.min()}")
         result.append(f"Mean grade: {grades_array.mean()}")
