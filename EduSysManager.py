@@ -1,4 +1,3 @@
-from Student import Student
 from Utils import merge_sort
 
 class EduSysManage(object):
@@ -36,13 +35,34 @@ class EduSysManage(object):
         stu_obj.remove_course(course_code)
 
     @staticmethod
-    def find_student(stu_id):
-        """Finds a particular student in the system and returns their transcript. """
-        if stu_id not in EduSysManage.students:
+    def find_student(key, user_input):
+        """Finds a particular student(s) by their student ID or
+        first/last name in the system. Returned value is their transcript. """
+        if key.lower() not in ("student id", "first name", "last name"):
+            raise ValueError("Invalid input. Finding student is only available with student ID, first/last name. ")
+        stu_obj = {}
+        result = []
+        if key.lower() == "student id":
+            if user_input in EduSysManage.students:
+                stu_obj[user_input] = EduSysManage.students[user_input]
+
+        elif key.lower() == "first name":
+            for stu_id, student in EduSysManage.students.items():
+                if user_input == student.f_name:
+                    stu_obj[stu_id] = student
+
+        else:
+            for stu_id, student in EduSysManage.students.items():
+                if user_input == student.l_name:
+                    stu_obj[stu_id] = student
+
+        if not stu_obj:
             raise ValueError("Invalid input. Student does not exist. ")
 
-        stu_obj = EduSysManage.students[stu_id]
-        return stu_obj.show_transcript()
+        for stu_id, student_obj in stu_obj.items():
+            result.append(student_obj.show_transcript())
+
+        return "\n".join(result)
 
     @staticmethod
     def sort_students(choice):
