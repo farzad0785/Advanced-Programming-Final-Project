@@ -135,16 +135,16 @@ class Student(Person):
 
     def show_transcript(self):
         result = []
-        result.append("="*50)
+        result.append("="*55)
         result.append(f"TRANSCRIPT FOR: {self.l_name} {self.f_name}")
 
-        result.append("-"*50)
+        result.append("-"*55)
         result.append(f"Student ID: {self.stu_id} | National ID: {self.national_id}")
 
-        result.append("-"*50)
+        result.append("-"*55)
         result.append(f"Degree: {self.degree} | Term: {self.term}")
 
-        result.append("-"*50)
+        result.append("-"*55)
         result.append(self.course_pass_check())
 
         result.append(f"GPA: {self.gpa} | Total unit: {self.total_unit}")
@@ -155,10 +155,10 @@ class Student(Person):
 
     #==========DUNDER METHODS==========
     def __str__(self):
-        return (f"Last name: {self.l_name} | First name: {self.f_name} | "
-                f"Student ID: {self.stu_id} | National ID: {self.national_id} | "
-                f"Degree: {self.degree} | Term: {self.term} | "
-                f"gpa: {self.gpa} | Total unit: {self.total_unit}")
+        return (f"Last name: {self.l_name} | First name: {self.f_name}"
+                f"\nStudent ID: {self.stu_id} | National ID: {self.national_id}"
+                f"\nDegree: {self.degree} | Term: {self.term}"
+                f"\nGPA: {self.gpa} | Total unit: {self.total_unit}")
 
     def __ge__(self, other):
         return self.gpa >= other.gpa

@@ -37,13 +37,15 @@ class Analytics(object):
             raise ValueError("Invalid input. No grades found for the entered filter. ")
         result = []
         key_str = key if key else "all students"
-        result.append("="*50)
+        result.append("="*55)
         result.append(f"Statistical analysis for grades based on {basis}: {key_str}")
         result.append(f"Max grade: {grades_array.max()}")
         result.append(f"Min grade: {grades_array.min()}")
         result.append(f"Mean grade: {grades_array.mean()}")
         result.append(f"Std grade: {grades_array.std()}")
-        result.append(f"How many passed: {np.sum(10 <= grades_array)}")
-        result.append(f"How many failed: {np.sum(10 > grades_array)}")
+        result.append("-"*55)
+        result.append(f"Passed grades: {np.sum(10 <= grades_array)}")
+        result.append(f"Failed grades: {np.sum(10 > grades_array)}")
+        result.append("="*55)
 
         return "\n".join(result)
