@@ -13,8 +13,8 @@ class Subject(object):
         return self._course_code
     @course_code.setter
     def course_code(self, new_code):
-        if not Utils.is_digits(new_code, 10):
-            raise ValueError("Invalid input. Course code must have only 10 digits. ")
+        if not Utils.is_course_code_valid(new_code):
+            raise ValueError("Invalid input. Course code must have 8 digits, followed by an uppercase and 2 lower case letters.")
         self._course_code = new_code
 
     @property
