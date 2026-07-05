@@ -67,14 +67,14 @@ class Student(Person):
 
     @property
     def total_unit(self):
-        return sum(Subject.courses[course_code]["course unit"] for course_code in self._student_courses)
+        return sum(Subject.courses[course_code].course_unit for course_code in self._student_courses)
 
     @property
     def gpa(self):
         total_weighted, total_unit = 0, 0
 
         for course_code, grade in self._student_courses.items():
-            unit = Subject.courses[course_code]["course unit"]
+            unit = Subject.courses[course_code].course_unit
             total_weighted += grade * unit
             total_unit += unit
 
@@ -121,8 +121,8 @@ class Student(Person):
             if grade < 10:
                 status = "FAIL"
             course_info = Subject.courses[course_code]
-            result.append(f"{course_code:<12} {course_info['course name']:<20} {grade:<6} "
-                  f"{course_info['course unit']:<6} {status:<8}")
+            result.append(f"{course_code:<12} {course_info.course_name:<20} {grade:<6} "
+                  f"{course_info.course_unit:<6} {status:<8}")
         return "\n".join(result)
 
     def term_pass_check(self):
