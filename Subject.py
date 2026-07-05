@@ -5,10 +5,7 @@ class Subject(object):
         self.course_code = course_code
         self.course_name = course_name
         self.course_unit = course_unit
-        Subject.courses[course_code] = {
-            "course name": course_name,
-            "course unit": course_unit,
-        }
+        Subject.courses[course_code] = self
 
     #==========PROPERTIES AND SETTERS==========
     @property
