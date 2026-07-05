@@ -35,25 +35,25 @@ class EduSysManage(object):
         stu_obj.remove_course(course_code)
 
     @staticmethod
-    def find_student(key, user_input):
+    def find_student(basis, key):
         """Finds a particular student(s) by their student ID or
         first/last name in the system. Returned value is their transcript. """
-        if key.lower() not in ("student id", "first name", "last name"):
+        if basis.lower() not in ("student id", "first name", "last name"):
             raise ValueError("Invalid input. Finding student is only available with student ID, first/last name. ")
         stu_obj = {}
         result = []
-        if key.lower() == "student id":
-            if user_input in EduSysManage.students:
-                stu_obj[user_input] = EduSysManage.students[user_input]
+        if basis.lower() == "student id":
+            if key in EduSysManage.students:
+                stu_obj[key] = EduSysManage.students[key]
 
-        elif key.lower() == "first name":
+        elif basis.lower() == "first name":
             for stu_id, student in EduSysManage.students.items():
-                if user_input == student.f_name:
+                if key == student.f_name:
                     stu_obj[stu_id] = student
 
         else:
             for stu_id, student in EduSysManage.students.items():
-                if user_input == student.l_name:
+                if key == student.l_name:
                     stu_obj[stu_id] = student
 
         if not stu_obj:
