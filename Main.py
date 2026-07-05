@@ -31,23 +31,35 @@ def remove_subject():
         except ValueError as e:
             print(e)
 
-def compare_subjects(sub_obj1, sub_obj2, key):
-    result = []
-    if key.lower() not in ("equal", "greater or equal", "lower or equal"):
-        raise ValueError("Invalid input. Comparison is only available for ('equal', 'greater or equal', 'lesser or equal'). ")
+def compare_subjects():
+    while True:
+        try:
+            course_code1 = input("Enter subject #1 code: ")
+            course_code2 = input("Enter subject #2 code: ")
+            key = input("Enter key: ")
+            sub_obj1 = Subject.courses[course_code1]
+            sub_obj2 = Subject.courses[course_code2]
 
-    result.append("="*55)
-    if key == "equal":
-        status = sub_obj1 == sub_obj2
-    elif key == "greater or equal":
-        status = sub_obj1 >= sub_obj2
-    else:
-        status = sub_obj1 <= sub_obj2
+            result = []
+            if key.lower() not in ("equal", "greater or equal", "lower or equal"):
+                raise ValueError("Invalid input. Comparison is only available for ('equal', 'greater or equal', 'lesser or equal'). ")
 
-    status = "is" if status else "isn't"
-    result.append(f"{sub_obj1.course_name} {status} {key} to {sub_obj2}")
+            result.append("="*55)
+            if key == "equal":
+                status = sub_obj1 == sub_obj2
+            elif key == "greater or equal":
+                status = sub_obj1 >= sub_obj2
+            else:
+                status = sub_obj1 <= sub_obj2
 
-    print("\n".join(result))
+            status = "is" if status else "isn't"
+            result.append(f"{sub_obj1.course_name} {status} {key} to {sub_obj2}")
+
+            print("\n".join(result))
+            break
+        except (ValueError, KeyError) as e:
+            print(e)
+
 
 def add_student_flow():
     while True:
@@ -65,6 +77,11 @@ def add_student_flow():
                 course_code = input("Enter course code: ")
                 courses_code_list.append(course_code)
                 stu_grade = input(f"Enter student grade in course {course_code}: ")
+                try:
+                    stu_grade = float(stu_grade)
+                except ValueError:
+                    print("Invalid input. Enter a floating point number for grade. ")
+                    continue
                 stu_grades_list.append(stu_grade)
 
                 try:
@@ -96,22 +113,33 @@ def remove_student_flow():
         except ValueError as e:
             print(e)
 
-def compare_students(stu_obj1, stu_obj2, key):
-    result = []
-    if key.lower() not in ("equal", "greater or equal", "lower or equal"):
-        raise ValueError("Invalid input. Comparison is only available for ('equal', 'greater or equal', 'lesser or equal'). ")
+def compare_students():
+    while True:
+        try:
+            stu_id1 = input("Enter student #1 ID: ")
+            stu_id2 = input("Enter student #2 ID:")
+            key = input("Enter key: ")
+            stu_obj1 = EduSysManage.students[stu_id1]
+            stu_obj2 = EduSysManage.students[stu_id2]
 
-    result.append("="*55)
-    if key == "equal":
-        status = stu_obj1 == stu_obj2
-    elif key == "greater or equal":
-        status = stu_obj1 >= stu_obj2
-    else:
-        status = stu_obj1 <= stu_obj2
+            result = []
+            if key.lower() not in ("equal", "greater or equal", "lower or equal"):
+                raise ValueError("Invalid input. Comparison is only available for ('equal', 'greater or equal', 'lesser or equal'). ")
 
-    status = "is" if status else "isn't"
-    result.append(f"{stu_obj1.l_name} {stu_obj1.f_name} GPA {status} {key} to {stu_obj2.l_name} {stu_obj2.f_name}. ")
-    print("\n".join(result))
+            result.append("="*55)
+            if key == "equal":
+                status = stu_obj1 == stu_obj2
+            elif key == "greater or equal":
+                status = stu_obj1 >= stu_obj2
+            else:
+                status = stu_obj1 <= stu_obj2
+
+            status = "is" if status else "isn't"
+            result.append(f"{stu_obj1.l_name} {stu_obj1.f_name} GPA {status} {key} to {stu_obj2.l_name} {stu_obj2.f_name}. ")
+            print("\n".join(result))
+            break
+        except (ValueError, KeyError) as e:
+            print(e)
 
 def add_course_flow():
     while True:
@@ -119,6 +147,11 @@ def add_course_flow():
             stu_id = input("Enter student ID: ")
             course_code = input("Enter course code: ")
             student_grade = input("Enter student grade: ")
+            try:
+                student_grade = float(student_grade)
+            except ValueError:
+                print("Invalid input. Enter a floating point number for grade. ")
+                continue
             EduSysManage.add_course(stu_id, course_code, student_grade)
             print("Course added successfully. ")
             break
@@ -155,7 +188,8 @@ def sorted_output():
         try:
             key = input("Enter key: ")
             answer = EduSysManage.sort_students(key)
-            print(answer)
+            for stu_id, stu_obj in answer:
+                print(stu_obj)
             break
 
         except ValueError as e:
