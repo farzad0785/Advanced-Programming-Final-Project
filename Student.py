@@ -3,7 +3,6 @@ import Utils
 from Subject import Subject
 
 class Student(Person):
-    total_students = 0
     def __init__(self, first_name, last_name, national_id, stu_id, degree, term, courses_code_list, stu_grades_list):
         super().__init__(first_name, last_name, national_id)
         self._gpa = None
@@ -14,7 +13,6 @@ class Student(Person):
         self.degree = degree
         self.term = term
         self._build_student_courses()
-        Student.total_students += 1
 
     #==========PROPERTIES AND SETTERS==========
     @property
@@ -52,7 +50,7 @@ class Student(Person):
     @degree.setter
     def degree(self, new_degree):
         if new_degree.lower() not in ("associate","bachelor", "master", "phd"):
-            raise ValueError("Invalid input. Degrees can be 'bachelor', 'master' or 'phd'.")
+            raise ValueError("Invalid input. Degrees can be 'associate', 'bachelor', 'master' or 'phd'.")
         self._degree = new_degree
 
     @property
