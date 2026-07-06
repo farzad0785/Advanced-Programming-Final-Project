@@ -13,9 +13,11 @@ def is_course_code_valid(text):
     return bool(text and re.match(r'^\d{8}[A-Za-z]{3}$', text))
 
 def merge_sort(lst, key):
+    if key.lower() not in ("gpa",  "total unit", "first name", "last name"):
+        raise ValueError("Invalid input. Sorting is available for 'gpa', 'total unit', 'first/last name'. ")
     """Sorter algorithm based on merge sort. Sorts according to the user's choice. """
     if len(lst) < 2:
-        return lst
+        return lst[:]
     middle = len(lst)//2
     left = merge_sort(lst[:middle], key)
     right = merge_sort(lst[middle:], key)
@@ -41,6 +43,15 @@ def merge(left, right, key):
             else:
                 result.append(left[i])
                 i += 1
+
+    elif key.lower() == "total unit":
+        while i < len(left) and j < len(right):
+            if left[i][1].total_unit >= right[j][1].total_unit:
+                result.append(left[i])
+                i += 1
+            else:
+                result.append(right[j])
+                j += 1
 
     else:
         while i < len(left) and j < len(right):

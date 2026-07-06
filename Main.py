@@ -8,8 +8,8 @@ from Analytics import Analytics
 def add_subject():
     while True:
         try:
-            course_code = input("Enter course code (Must start with 8 digits followed by an uppercase letter and two"
-                                " lower case letter. e.g. 12345678Abc): ")
+            course_code = input("Enter course code (Must start with 8 digits followed by an uppercase letter and two "
+                                "lowercase letter. e.g. 12345678Abc): ")
             if course_code in Subject.courses:
                 raise ValueError("Invalid input. This course already exist. ")
             course_name = input("Enter course name: ")
@@ -31,7 +31,7 @@ def remove_subject():
     while True:
         try:
             course_code = input("Enter course code (Must start with 8 digits followed by an uppercase letter and two"
-                                " lower case letter. e.g. 12345678Abc): ")
+                                " lowercase letter. e.g. 12345678Abc): ")
             if course_code not in Subject.courses:
                 raise ValueError("Invalid input. Course does not exist. ")
             Subject.courses.pop(course_code)
@@ -43,14 +43,16 @@ def remove_subject():
 
 def compare_subjects():
     if len(Subject.courses) < 2:
-        print("WARNING. There must be at least 2 subjects in the system to compare them. Please at least add 2 subjects.")
+        print("WARNING. There must be at least 2 subjects in the system to compare them. Please add subjects first.")
         print(f"Total subjects: {len(Subject.courses)}")
         return
 
     while True:
         try:
-            course_code1 = input("Enter subject #1 code: ")
-            course_code2 = input("Enter subject #2 code: ")
+            course_code1 = input("Enter subject #1 code(Must start with 8 digits followed by an uppercase letter and two"
+                                 " lowercase letter. e.g. 12345678Abc): ")
+            course_code2 = input("Enter subject #2 code(Must start with 8 digits followed by an uppercase letter and two"
+                                 " lowercase letter. e.g. 12345678Abc): ")
             key = input("Enter key: ")
             sub_obj1 = Subject.courses[course_code1]
             sub_obj2 = Subject.courses[course_code2]
@@ -98,9 +100,14 @@ def add_student_flow():
             courses_code_list, stu_grades_list = [], []
             repeat = 1
             while repeat == 1:
-                course_code = input("Enter course code(Must start with 8 digits followed by an uppercase letter and two"
-                                    " lower case letter. e.g. 12345678Abc): ")
-                stu_grade = input(f"Enter student grade in course {course_code}: ")
+                course_code = input("Enter code of the course that student has(Must start with 8 digits followed by "
+                                    "an uppercase letter and two lowercase letter. e.g. 12345678Abc): ")
+                if course_code in courses_code_list:
+                    print(f"Invalid input. Student already has this course {course_code}")
+                    continue
+
+                stu_grade = input(f"Enter student grade in course {course_code} | "
+                                  f"{Subject.courses[course_code].course_name} : ")
                 try:
                     stu_grade = float(stu_grade)
                 except ValueError:
@@ -225,9 +232,8 @@ def find_student():
 
     while True:
         try:
-            basis = input("Enter basis (Finding student by their 'student ID', 'first name' or 'last name') : ")
-            ###
-            key = input("Enter key (ID/first name/last name of the student to look for): ")############
+            basis = input("Enter basis (Finding student(s) by their 'student ID', 'first name' or 'last name') : ")
+            key = input("Enter key (student ID/first name/last name of the student(s)): ")
             answer = EduSysManage.find_student(basis, key)
             print(answer)
             break
@@ -242,7 +248,7 @@ def sorted_output():
 
     while True:
         try:
-            key = input("Enter key (Sorting students by their 'student ID', 'first name' or 'last name'): ")
+            key = input("Enter key (Sorting students by their 'gpa', 'total unit', 'first name' or 'last name'): ")
             answer = EduSysManage.sort_students(key)
             for stu_id, stu_obj in answer:
                 print(stu_obj)

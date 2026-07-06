@@ -82,7 +82,7 @@ class Student(Person):
     #==========METHODS==========
     def _build_student_courses(self):
         if len(self.stu_courses_code) != len(self.stu_grades):
-            raise ValueError("Invalid input. NUmber of courses and grades does not match. ")
+            raise ValueError("Invalid input. Number of courses and grades does not match. ")
         self._student_courses = dict(zip(self.stu_courses_code, self.stu_grades))
 
     def get_grades(self):

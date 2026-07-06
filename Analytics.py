@@ -11,7 +11,7 @@ class Analytics(object):
         all_grades = []
         if basis.lower() == "course":
             for student in self.system.students.values():
-                for course, grade in student.get_grades.items():
+                for course, grade in student.get_grades().items():
                     if course == key:
                         all_grades.append(grade)
 
@@ -31,7 +31,7 @@ class Analytics(object):
 
         return np.array(all_grades, dtype=np.float32)
 
-    def get_stats(self, basis, key=None):
+    def get_stats(self, basis, key):
         grades_array = self.all_grades_np(basis, key)
         if len(grades_array) == 0:
             raise ValueError("Invalid input. No grades found for the entered filter. ")

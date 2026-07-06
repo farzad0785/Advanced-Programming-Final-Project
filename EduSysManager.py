@@ -67,8 +67,7 @@ class EduSysManage(object):
     @staticmethod
     def sort_students(choice):
         """returns sorted student based on their choice. """
-        result = []
         students_list = list(EduSysManage.students.items())
-        result.append(merge_sort(students_list, choice))
+        result = (merge_sort(students_list, choice))
 
-        return "\n".join(result)
+        return result
