@@ -106,6 +106,10 @@ def add_student_flow():
                     print(f"Invalid input. Student already has this course {course_code}")
                     continue
 
+                if course_code not in Subject.courses:
+                    print(f"Invalid input. Course code: {course_code} does not exist in system.")
+                    continue
+
                 stu_grade = input(f"Enter student grade in course {course_code} | "
                                   f"{Subject.courses[course_code].course_name} : ")
                 try:

@@ -51,7 +51,7 @@ class Student(Person):
     def degree(self, new_degree):
         if new_degree.lower() not in ("associate","bachelor", "master", "phd"):
             raise ValueError("Invalid input. Degrees can be 'associate', 'bachelor', 'master' or 'phd'.")
-        self._degree = new_degree
+        self._degree = new_degree.capitalize()
 
     @property
     def term(self):

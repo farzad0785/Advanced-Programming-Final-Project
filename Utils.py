@@ -26,7 +26,7 @@ def merge_sort(lst, key):
 def merge(left, right, key):
     result = []
     i,j = 0,0
-    if key == "gpa":
+    if key.lower() == "gpa":
         while i < len(left) and j < len(right):
             if left[i][1].gpa >= right[j][1].gpa:
                 result.append(left[i])
@@ -35,7 +35,7 @@ def merge(left, right, key):
                 result.append(right[j])
                 j += 1
 
-    elif key == "first name":
+    elif key.lower() == "first name":
         while i < len(left) and j < len(right):
             if left[i][1].f_name >= right[j][1].f_name:
                 result.append(right[j])

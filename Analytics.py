@@ -17,7 +17,7 @@ class Analytics(object):
 
         elif basis.lower() == "term":
             for student in self.system.students.values():
-                if student.term == key:
+                if student.term == int(key):
                     all_grades.extend(student.stu_grades)
 
         elif basis.lower() == "degree":
