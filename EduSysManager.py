@@ -1,37 +1,37 @@
 from Utils import merge_sort
 
-class EduSysManage(object):
+class EduSysManager(object):
     students = {}
     total_students = 0
 
     @staticmethod
     def add_student_to_system(stu_id, stu_obj):
-        if stu_id in EduSysManage.students:
+        if stu_id in EduSysManager.students:
             raise ValueError("Invalid input. Student already exist. ")
-        EduSysManage.students[stu_id] = stu_obj
-        EduSysManage.total_students += 1
+        EduSysManager.students[stu_id] = stu_obj
+        EduSysManager.total_students += 1
 
     @staticmethod
     def remove_student_from_system(stu_id):
-        if stu_id not in EduSysManage.students:
+        if stu_id not in EduSysManager.students:
             raise ValueError("Invalid input. Student does not exist. ")
-        EduSysManage.students.pop(stu_id)
-        EduSysManage.total_students -= 1
+        EduSysManager.students.pop(stu_id)
+        EduSysManager.total_students -= 1
 
     @staticmethod
     def add_course(stu_id, course_code, stu_grade):
-        if stu_id not in EduSysManage.students:
+        if stu_id not in EduSysManager.students:
             raise ValueError("Invalid input. Student does not exist. ")
 
-        stu_obj = EduSysManage.students[stu_id]
+        stu_obj = EduSysManager.students[stu_id]
         stu_obj.add_course(course_code, stu_grade)
 
     @staticmethod
     def remove_course(stu_id, course_code):
-        if stu_id not in EduSysManage.students:
+        if stu_id not in EduSysManager.students:
             raise ValueError("Invalid input. Student does not exist. ")
 
-        stu_obj = EduSysManage.students[stu_id]
+        stu_obj = EduSysManager.students[stu_id]
         stu_obj.remove_course(course_code)
 
     @staticmethod
@@ -43,16 +43,16 @@ class EduSysManage(object):
         stu_obj = {}
         result = []
         if basis.lower() == "student id":
-            if key in EduSysManage.students:
-                stu_obj[key] = EduSysManage.students[key]
+            if key in EduSysManager.students:
+                stu_obj[key] = EduSysManager.students[key]
 
         elif basis.lower() == "first name":
-            for stu_id, student in EduSysManage.students.items():
+            for stu_id, student in EduSysManager.students.items():
                 if key == student.f_name:
                     stu_obj[stu_id] = student
 
         else:
-            for stu_id, student in EduSysManage.students.items():
+            for stu_id, student in EduSysManager.students.items():
                 if key == student.l_name:
                     stu_obj[stu_id] = student
 
@@ -67,7 +67,7 @@ class EduSysManage(object):
     @staticmethod
     def sort_students(choice):
         """returns sorted student based on their choice. """
-        students_list = list(EduSysManage.students.items())
+        students_list = list(EduSysManager.students.items())
         result = (merge_sort(students_list, choice))
 
         return result

@@ -1,5 +1,5 @@
 #==========LIBRARIES==========
-from EduSysManager import EduSysManage
+from EduSysManager import EduSysManager
 from Student import Student
 from Subject import Subject
 from Analytics import Analytics
@@ -132,32 +132,32 @@ def add_student_flow():
                     print("Invalid input. Enter 1 or 2.")
 
             stu_obj = Student(first_name, last_name, national_id, stu_id, degree, term, courses_code_list, stu_grades_list)
-            EduSysManage.add_student_to_system(stu_id, stu_obj)
+            EduSysManager.add_student_to_system(stu_id, stu_obj)
             print("Student added successfully. ")
             print(stu_obj)
-            print(f"Total students: {EduSysManage.total_students}")
+            print(f"Total students: {EduSysManager.total_students}")
             break
 
         except ValueError as e:
             print(e)
 
 def remove_student_flow():
-    if len(EduSysManage.students) == 0:
+    if len(EduSysManager.students) == 0:
         print("WARNING. There isn't any student in the system. Please add one first. ")
         return
 
     while True:
         try:
             stu_id = input("Enter student ID (Must has only 8 digits. e.g. 12345678): ")
-            EduSysManage.remove_student_from_system(stu_id)
+            EduSysManager.remove_student_from_system(stu_id)
             print("Student removed from system successfully. ")
-            print(f"Total students: {EduSysManage.total_students}")
+            print(f"Total students: {EduSysManager.total_students}")
             break
         except ValueError as e:
             print(e)
 
 def compare_students():
-    if len(EduSysManage.students) < 2:
+    if len(EduSysManager.students) < 2:
         print("WARNING. There must be at least 2 students in the system to compare them. Please at least add 2 students.")
         return
 
@@ -166,8 +166,8 @@ def compare_students():
             stu_id1 = input("Enter student #1 ID (Must has only 8 digits. e.g. 12345678): ")
             stu_id2 = input("Enter student #2 ID (Must has only 8 digits. e.g. 12345678):")
             key = input("Enter key: ")
-            stu_obj1 = EduSysManage.students[stu_id1]
-            stu_obj2 = EduSysManage.students[stu_id2]
+            stu_obj1 = EduSysManager.students[stu_id1]
+            stu_obj2 = EduSysManager.students[stu_id2]
 
             result = []
             if key.lower() not in ("equal", "greater or equal", "lower or equal"):
@@ -189,7 +189,7 @@ def compare_students():
             print(e)
 
 def add_course_flow():
-    if len(Subject.courses) == 0 or len(EduSysManage.students) == 0:
+    if len(Subject.courses) == 0 or len(EduSysManager.students) == 0:
         print("WARNING. To add course there must be at least one subject and student in the system. ")
         return
 
@@ -205,7 +205,7 @@ def add_course_flow():
                 print("Invalid input. Enter a floating point number for grade. ")
                 continue
 
-            EduSysManage.add_course(stu_id, course_code, student_grade)
+            EduSysManager.add_course(stu_id, course_code, student_grade)
             print("Course added successfully. ")
             break
 
@@ -213,7 +213,7 @@ def add_course_flow():
             print(e)
 
 def remove_course_flow():
-    if len(Subject.courses) == 0 or len(EduSysManage.students) == 0:
+    if len(Subject.courses) == 0 or len(EduSysManager.students) == 0:
         print("WARNING. To remove a course from a student profile, there must be at least one student and subject in the system.")
         return
 
@@ -222,7 +222,7 @@ def remove_course_flow():
             stu_id = input("Enter student ID (Must has only 8 digits. e.g. 12345678.): ")
             course_code = input("Enter course code (Must start with 8 digits followed by an uppercase letter and two"
                                 " lower case letter. e.g. 12345678Abc)")
-            EduSysManage.remove_course(stu_id, course_code)
+            EduSysManager.remove_course(stu_id, course_code)
             print("Course removed successfully. ")
             break
 
@@ -230,7 +230,7 @@ def remove_course_flow():
             print(e)
 
 def find_student():
-    if len(EduSysManage.students) == 0:
+    if len(EduSysManager.students) == 0:
         print("WARNING. There must be at least one student in the system to check their transcript. Please add student first.")
         return
 
@@ -238,7 +238,7 @@ def find_student():
         try:
             basis = input("Enter basis (Finding student(s) by their 'student ID', 'first name' or 'last name') : ")
             key = input("Enter key (student ID/first name/last name of the student(s)): ")
-            answer = EduSysManage.find_student(basis, key)
+            answer = EduSysManager.find_student(basis, key)
             print(answer)
             break
 
@@ -246,14 +246,14 @@ def find_student():
             print(e)
 
 def sorted_output():
-    if len(EduSysManage.students) < 2:
+    if len(EduSysManager.students) < 2:
         print("WARNING. There must be at least two students in the system to sort them. ")
         return
 
     while True:
         try:
             key = input("Enter key (Sorting students by their 'gpa', 'total unit', 'first name' or 'last name'): ")
-            answer = EduSysManage.sort_students(key)
+            answer = EduSysManager.sort_students(key)
             for stu_id, stu_obj in answer:
                 print(stu_obj)
             break
@@ -262,7 +262,7 @@ def sorted_output():
             print(e)
 
 def data_analysis():
-    if len(EduSysManage.students) == 0:
+    if len(EduSysManager.students) == 0:
         print("WARNING. There must be at least one student in the system to check statistical analysis. ")
         return
 

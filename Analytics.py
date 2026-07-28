@@ -1,9 +1,9 @@
 import numpy as np
-from EduSysManager import EduSysManage
+from EduSysManager import EduSysManager
 
 class Analytics(object):
     def __init__(self):
-        self.system = EduSysManage
+        self.system = EduSysManager
 
     def all_grades_np(self, basis, key):
         if basis.lower() not in ("all", "course", "term", "degree"):
