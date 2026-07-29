@@ -94,7 +94,7 @@ def add_student_flow():
             last_name = input("Enter last name (Must be capitalized. e.g. Hosseini): ")
             national_id = input("Enter national ID (Must has only 11 digits. e.g. 01234567890): ")
             stu_id = input("Enter student ID (Must has only 8 digits. e.g. 12345678): ")
-            degree = input("Enter degree: (Valid degrees are: 'associate', 'bachelor', 'master' or 'phd')")
+            degree = input("Enter degree (Valid degrees are: 'associate', 'bachelor', 'master' or 'phd'): ")
             term = input("Enter term (Must be an integer): ")
 
             courses_code_list, stu_grades_list = [], []

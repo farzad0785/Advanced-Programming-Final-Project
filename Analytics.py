@@ -22,7 +22,7 @@ class Analytics(object):
 
         elif basis.lower() == "degree":
             for student in self.system.students.values():
-                if student.degree == key.capitalized():
+                if student.degree == key.capitalize():
                     all_grades.extend(student.stu_grades)
 
         else:
