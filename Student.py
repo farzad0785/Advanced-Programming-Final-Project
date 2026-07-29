@@ -136,9 +136,9 @@ class Student(Person):
         return "\n".join(result)
 
     def term_pass_check(self):
-        if self.degree in ("associate", "bachelor"):
+        if self.degree in ("Associate", "Bachelor"):
             return self.gpa >= 12
-        elif self.degree == "master":
+        elif self.degree == "Master":
             return self.gpa >= 14
         else:
             return self.gpa >= 16
