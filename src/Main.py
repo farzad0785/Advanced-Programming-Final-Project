@@ -6,7 +6,13 @@ from Analytics import Analytics
 from Major import Major
 
 #==========FLOW FUNCTIONS==========
-def add_subject():
+def get_all_subjects():
+    print(f"Total Subjects in system: {len(Subject.courses)}")
+    print("-"*55)
+    for sub,sub_obj in Subject.courses.items():
+        print(sub_obj)
+
+def add_subject_flow():
     while True:
         try:
             course_code = input("Enter course code (Must start with 8 digits followed by an uppercase letter and two "
@@ -24,7 +30,7 @@ def add_subject():
         except ValueError as e:
             print(e)
 
-def remove_subject():
+def remove_subject_flow():
     if len(Subject.courses) == 0:
         print("WARNING. There isn't any subject in the system. Please add one subject first.")
         return
@@ -51,11 +57,11 @@ def compare_subjects():
 
     while True:
         try:
-            course_code1 = input("Enter subject #1 code(Must start with 8 digits followed by an uppercase letter and two"
+            course_code1 = input("Enter subject #1 code (Must start with 8 digits followed by an uppercase letter and two"
                                  " lowercase letter. e.g. 12345678Abc): ")
-            course_code2 = input("Enter subject #2 code(Must start with 8 digits followed by an uppercase letter and two"
+            course_code2 = input("Enter subject #2 code (Must start with 8 digits followed by an uppercase letter and two"
                                  " lowercase letter. e.g. 12345678Abc): ")
-            key = input("Enter key: ")
+            key = input("Enter key ('equal', 'greater or equal', 'lesser or equal'): ")
             sub_obj1 = Subject.courses[course_code1]
             sub_obj2 = Subject.courses[course_code2]
 
@@ -72,24 +78,18 @@ def compare_subjects():
                 status = sub_obj1 <= sub_obj2
 
             status = "is" if status else "isn't"
-            result.append(f"{sub_obj1.course_name} {status} {key} to {sub_obj2}")
+            result.append(f"{sub_obj1.course_name} {status} {key} to {sub_obj2.course_name}")
 
             print("\n".join(result))
             break
         except (ValueError, KeyError) as e:
             print(e)
 
-def get_all_subjects():
-    print(f"Total Subjects in system: {len(Subject.courses)}")
-    print("-"*55)
-    for sub,sub_obj in Subject.courses.items():
-        print(sub_obj)
-
 def add_major_flow():
     while True:
         try:
-            major = input("Enter Major name: ")
-            major_obj = Major.add_major(major)
+            major = input("Enter Major name (Must be capitalized. e.g. Computer science): ")
+            Major.add_major(major)
             print(major)
             print("Major added successfully. ")
             print(f"Total majors: {len(Major.all_majors)}")
@@ -189,7 +189,7 @@ def compare_students():
         try:
             stu_id1 = input("Enter student #1 ID (Must has only 8 digits. e.g. 12345678): ")
             stu_id2 = input("Enter student #2 ID (Must has only 8 digits. e.g. 12345678):")
-            key = input("Enter key: ")
+            key = input("Enter key ('equal', 'greater or equal', 'lesser or equal'): ")
             stu_obj1 = EduSysManager.students[stu_id1]
             stu_obj2 = EduSysManager.students[stu_id2]
 
@@ -206,7 +206,7 @@ def compare_students():
                 status = stu_obj1 <= stu_obj2
 
             status = "is" if status else "isn't"
-            result.append(f"{stu_obj1.l_name} {stu_obj1.f_name} GPA {status} {key} to {stu_obj2.l_name} {stu_obj2.f_name}. ")
+            result.append(f"{stu_obj1.l_name} {stu_obj1.f_name} GPA {status} {key} to {stu_obj2.l_name} {stu_obj2.f_name} GPA. ")
             print("\n".join(result))
             break
         except (ValueError, KeyError) as e:
@@ -280,6 +280,7 @@ def sorted_output():
             answer = EduSysManager.sort_students(key)
             for stu_id, stu_obj in answer:
                 print(stu_obj)
+                print("="*55)
             break
 
         except ValueError as e:
@@ -304,8 +305,8 @@ def data_analysis():
 
 #==========MAIN SCOPE==========
 operation_table = {"1":("get all subjects", get_all_subjects),
-                   "2": ("add subject to the system", add_subject),
-                   "3": ("remove subject from the system", remove_subject),
+                   "2": ("add subject to the system", add_subject_flow),
+                   "3": ("remove subject from the system", remove_subject_flow),
                    "4": ("compare two subjects by their unit", compare_subjects),
                    "5": ("add major to the system", add_major_flow),
                    "6": ("get all majors", get_all_majors),
@@ -333,4 +334,4 @@ while True:
         except (ValueError, KeyError) as er:
             print(er)
     else:
-        print("Invalid input. Input must be a number from 0 to 12. ")
+        print("Invalid input. Input must be a number from 0 to 14. ")

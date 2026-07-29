@@ -41,6 +41,7 @@ class EduSysManager(object):
         first/last name in the system. Returned value is their transcript. """
         if basis.lower() not in ("student id", "first name", "last name"):
             raise ValueError("Invalid input. Finding student is only available with student ID, first/last name. ")
+
         stu_obj = {}
         result = []
         if basis.lower() == "student id":

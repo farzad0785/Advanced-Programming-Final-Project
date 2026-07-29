@@ -43,6 +43,7 @@ class Analytics(object):
         grades_array = self.all_grades_np(basis, key)
         if len(grades_array) == 0:
             raise ValueError("Invalid input. No grades found for the entered filter. ")
+
         result = []
         key_str = key if key else "all students"
         result.append("="*55)

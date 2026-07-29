@@ -18,6 +18,7 @@ def merge_sort(lst, key):
     """Sorter algorithm based on merge sort. Sorts according to the user's choice. """
     if len(lst) < 2:
         return lst[:]
+
     middle = len(lst)//2
     left = merge_sort(lst[:middle], key)
     right = merge_sort(lst[middle:], key)

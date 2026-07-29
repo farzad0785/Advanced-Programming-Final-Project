@@ -61,9 +61,11 @@ class Student(Person):
         return self._major
     @major.setter
     def major(self, new_major):
+        if not Utils.is_capitalized(new_major):
+            raise ValueError("Invalid input. Major Must be capitalized. ")
         if new_major not in Major.all_majors:
             raise ValueError(f"Invalid input. {new_major.capitalize()} does not exist. ")
-        self._major = new_major
+        self._major = new_major.capitalize()
 
     @property
     def term(self):
@@ -157,7 +159,7 @@ class Student(Person):
         result.append("-"*55)
         result.append(self.course_pass_check())
 
-        result.append(f"GPA: {self.gpa} | Total unit: {self.total_unit}")
+        result.append(f"GPA: {self.gpa:.2f} | Total unit: {self.total_unit}")
         status = "PASSED" if self.term_pass_check() else "FAILED"
         result.append(f"STATUS: {status}")
 
@@ -168,7 +170,7 @@ class Student(Person):
         return (f"Last name: {self.l_name} | First name: {self.f_name}"
                 f"\nStudent ID: {self.stu_id} | National ID: {self.national_id}"
                 f"\nDegree: {self.degree} | Major: {self.major} | Term: {self.term}"
-                f"\nGPA: {self.gpa} | Total unit: {self.total_unit}")
+                f"\nGPA: {self.gpa:.2f} | Total unit: {self.total_unit}")
 
     def __ge__(self, other):
         return self.gpa >= other.gpa

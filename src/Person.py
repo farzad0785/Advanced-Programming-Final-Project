@@ -1,4 +1,4 @@
-from Utils import is_capitalized, is_digits
+import Utils
 
 class Person(object):
     def __init__(self, first_name, last_name, national_id):
@@ -12,7 +12,7 @@ class Person(object):
         return self._f_name
     @f_name.setter
     def f_name(self, new_name):
-        if not is_capitalized(new_name):
+        if not Utils.is_capitalized(new_name):
             raise ValueError("Invalid input. First name must be capitalized. ")
         self._f_name = new_name
 
@@ -21,7 +21,7 @@ class Person(object):
         return self._l_name
     @l_name.setter
     def l_name(self, new_name):
-        if not is_capitalized(new_name):
+        if not Utils.is_capitalized(new_name):
             raise ValueError("Invalid input. Last name must be capitalized. ")
         self._l_name = new_name
 
@@ -30,7 +30,7 @@ class Person(object):
         return self._national_id
     @national_id.setter
     def national_id(self, new_id):
-        if not is_digits(new_id, 11):
+        if not Utils.is_digits(new_id, 11):
             raise ValueError("Invalid input. ID code must be only 11 digits.")
         self._national_id = new_id
 

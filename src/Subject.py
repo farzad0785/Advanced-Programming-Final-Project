@@ -38,7 +38,6 @@ class Subject(object):
     #==========DUNDER METHODS==========
     def __str__(self):
         return f"Course code: {self.course_code} | Course name: {self.course_name} | Course unit: {self.course_unit}"
-
     def __eq__(self, other):
         return self.course_unit == other.course_unit
     def __ge__(self, other):
