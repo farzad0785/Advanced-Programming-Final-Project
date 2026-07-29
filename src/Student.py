@@ -61,11 +61,9 @@ class Student(Person):
         return self._major
     @major.setter
     def major(self, new_major):
-        if not Utils.is_capitalized(new_major):
-            raise ValueError("Invalid input. Major Must be capitalized. ")
         if new_major not in Major.all_majors:
-            raise ValueError(f"Invalid input. {new_major.capitalize()} does not exist. ")
-        self._major = new_major.capitalize()
+            raise ValueError(f"Invalid input. {new_major} does not exist. ")
+        self._major = new_major
 
     @property
     def term(self):

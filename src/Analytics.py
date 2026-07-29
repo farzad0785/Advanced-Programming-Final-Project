@@ -29,9 +29,8 @@ class Analytics(object):
         elif basis.lower() == "course":
             for student in self.system.students.values():
                 for course, grade in student.get_grades().items():
-                    if course == key.capitalize():
+                    if course == key:
                         all_grades.append(grade)
-
 
         else:
             for student in self.system.students.values():

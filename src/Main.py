@@ -66,7 +66,7 @@ def compare_subjects():
             sub_obj2 = Subject.courses[course_code2]
 
             result = []
-            if key.lower() not in ("equal", "greater or equal", "lower or equal"):
+            if key.lower() not in ("equal", "greater or equal", "lesser or equal"):
                 raise ValueError("Invalid input. Comparison is only available for ('equal', 'greater or equal', 'lesser or equal'). ")
 
             result.append("="*55)
@@ -194,7 +194,7 @@ def compare_students():
             stu_obj2 = EduSysManager.students[stu_id2]
 
             result = []
-            if key.lower() not in ("equal", "greater or equal", "lower or equal"):
+            if key.lower() not in ("equal", "greater or equal", "lesser or equal"):
                 raise ValueError("Invalid input. Comparison is only available for ('equal', 'greater or equal', 'lesser or equal'). ")
 
             result.append("="*55)
