@@ -1,6 +1,7 @@
 Student Management & Analytics System.
 A Python-based educational system management project built for an Advanced Programming course. 
 It manages student records, courses, and majors, and provides GPA calculation, transcript viewing, sorting, and statistical analysis of grades.
+Two reports are in the docs directory in both English and Persian, and codes are in the src directory.
 
 The project is organized into 8 modules, each with a single responsibility. Modules import functions or classes from one another as needed.
 1. Utils.py
