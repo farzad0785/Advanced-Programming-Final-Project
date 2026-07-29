@@ -6,24 +6,32 @@ class Analytics(object):
         self.system = EduSysManager
 
     def all_grades_np(self, basis, key):
-        if basis.lower() not in ("all", "course", "term", "degree"):
-            raise ValueError("Invalid input. statistical is only available for ('all', 'course', 'term', 'degree')")
+        if basis.lower() not in ("all", "degree", "major", "term", "course"):
+            raise ValueError("Invalid input. statistical is only available for ('all', 'major', 'degree', "
+                             "'term' and 'course')")
         all_grades = []
-        if basis.lower() == "course":
+
+        if basis.lower() == "degree":
             for student in self.system.students.values():
-                for course, grade in student.get_grades().items():
-                    if course == key:
-                        all_grades.append(grade)
+                if student.degree == key.capitalize():
+                    all_grades.extend(student.stu_grades)
+
+        elif basis.lower() == "major":
+            for student in self.system.students.values():
+                if student.major == key.capitalize():
+                    all_grades.extend(student.stu_grades)
 
         elif basis.lower() == "term":
             for student in self.system.students.values():
                 if student.term == int(key):
                     all_grades.extend(student.stu_grades)
 
-        elif basis.lower() == "degree":
+        elif basis.lower() == "course":
             for student in self.system.students.values():
-                if student.degree == key.capitalize():
-                    all_grades.extend(student.stu_grades)
+                for course, grade in student.get_grades().items():
+                    if course == key.capitalize():
+                        all_grades.append(grade)
+
 
         else:
             for student in self.system.students.values():

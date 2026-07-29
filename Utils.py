@@ -1,15 +1,15 @@
 import re
 
 def is_capitalized(text):
-    """Validation. return True if text is capitalized."""
+    """Validation. Returns True if text is capitalized."""
     return bool(text and re.match(r'^[A-Z][a-z]*$', text))
 
 def is_digits(text, amount):
-    """Validation. return True if text has only and exactly 'amount' digits."""
+    """Validation. Returns True if text has only and exactly 'amount' digits."""
     return bool(text and re.match(rf'^\d{{{amount}}}$', text))
 
 def is_course_code_valid(text):
-    """Validation. return True if text has 8 digits followed by exactly 3 letters. """
+    """Validation. Returns True if text has 8 digits followed by exactly 3 letters. """
     return bool(text and re.match(r'^\d{8}[A-Za-z]{3}$', text))
 
 def merge_sort(lst, key):

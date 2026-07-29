@@ -4,6 +4,7 @@ class EduSysManager(object):
     students = {}
     total_students = 0
 
+    #=====STATIC METHODS==========
     @staticmethod
     def add_student_to_system(stu_id, stu_obj):
         if stu_id in EduSysManager.students:

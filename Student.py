@@ -1,9 +1,11 @@
-from Person import Person
 import Utils
+from Person import Person
 from Subject import Subject
+from Major import Major
 
 class Student(Person):
-    def __init__(self, first_name, last_name, national_id, stu_id, degree, term, courses_code_list, stu_grades_list):
+    def __init__(self, first_name, last_name, national_id, stu_id, degree, major,
+                 term, courses_code_list, stu_grades_list):
         super().__init__(first_name, last_name, national_id)
         self._gpa = None
         self._student_courses = {}
@@ -11,6 +13,7 @@ class Student(Person):
         self.stu_courses_code = courses_code_list
         self.stu_grades = stu_grades_list
         self.degree = degree
+        self.major = major
         self.term = term
         self._build_student_courses()
 
@@ -49,9 +52,18 @@ class Student(Person):
         return self._degree
     @degree.setter
     def degree(self, new_degree):
-        if new_degree.lower() not in ("associate","bachelor", "master", "phd"):
-            raise ValueError("Invalid input. Degrees can be 'associate', 'bachelor', 'master' or 'phd'.")
-        self._degree = new_degree.capitalize()
+        if new_degree not in ("Associate","Bachelor", "Master", "Phd"):
+            raise ValueError("Invalid input. Degree must be among 'Associate', 'Bachelor', 'Master' or 'Phd'.")
+        self._degree = new_degree
+
+    @property
+    def major(self):
+        return self._major
+    @major.setter
+    def major(self, new_major):
+        if new_major not in Major.all_majors:
+            raise ValueError(f"Invalid input. {new_major.capitalize()} does not exist. ")
+        self._major = new_major
 
     @property
     def term(self):
@@ -140,7 +152,7 @@ class Student(Person):
         result.append(f"Student ID: {self.stu_id} | National ID: {self.national_id}")
 
         result.append("-"*55)
-        result.append(f"Degree: {self.degree} | Term: {self.term}")
+        result.append(f"Degree: {self.degree} | Major: {self.major} | Term: {self.term}")
 
         result.append("-"*55)
         result.append(self.course_pass_check())
@@ -155,7 +167,7 @@ class Student(Person):
     def __str__(self):
         return (f"Last name: {self.l_name} | First name: {self.f_name}"
                 f"\nStudent ID: {self.stu_id} | National ID: {self.national_id}"
-                f"\nDegree: {self.degree} | Term: {self.term}"
+                f"\nDegree: {self.degree} | Major: {self.major} | Term: {self.term}"
                 f"\nGPA: {self.gpa} | Total unit: {self.total_unit}")
 
     def __ge__(self, other):

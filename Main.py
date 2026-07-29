@@ -3,6 +3,7 @@ from EduSysManager import EduSysManager
 from Student import Student
 from Subject import Subject
 from Analytics import Analytics
+from Major import Major
 
 #==========FLOW FUNCTIONS==========
 def add_subject():
@@ -42,6 +43,7 @@ def remove_subject():
             print(e)
 
 def compare_subjects():
+    """Compares courses based on their unit and finds them with their course code. At least 2 courses must be in the system. """
     if len(Subject.courses) < 2:
         print("WARNING. There must be at least 2 subjects in the system to compare them. Please add subjects first.")
         print(f"Total subjects: {len(Subject.courses)}")
@@ -83,9 +85,28 @@ def get_all_subjects():
     for sub,sub_obj in Subject.courses.items():
         print(sub_obj)
 
+def add_major_flow():
+    while True:
+        try:
+            major = input("Enter Major name: ")
+            major_obj = Major.add_major(major)
+            print(major)
+            print("Major added successfully. ")
+            print(f"Total majors: {len(Major.all_majors)}")
+            break
+        except ValueError as e:
+            print(e)
+
+def get_all_majors():
+    print(f"Total Majors in system: {len(Major.all_majors)}")
+    print("-"*55)
+    for major in Major.all_majors:
+        print(major)
+
 def add_student_flow():
-    if len(Subject.courses) == 0:
-        print("WARNING. There isn't any subject in the system. Please add subject first.")
+    if len(Subject.courses) == 0 or len(Major.all_majors) == 0:
+        print("WARNING. Please enter at least one major and one course to the system. ")
+        print(f"Total subject: {len(Subject.courses)} \nTotal majors: {len(Major.all_majors)}")
         return
 
     while True:
@@ -94,7 +115,8 @@ def add_student_flow():
             last_name = input("Enter last name (Must be capitalized. e.g. Hosseini): ")
             national_id = input("Enter national ID (Must has only 11 digits. e.g. 01234567890): ")
             stu_id = input("Enter student ID (Must has only 8 digits. e.g. 12345678): ")
-            degree = input("Enter degree (Valid degrees are: 'associate', 'bachelor', 'master' or 'phd'): ")
+            degree = input("Enter degree (Must be capitalized. e.g. Associate, Bachelor, Master or Phd): ")
+            major = input("Enter major (Must be capitalized. e.g. Computer Science): ")
             term = input("Enter term (Must be an integer): ")
 
             courses_code_list, stu_grades_list = [], []
@@ -131,7 +153,8 @@ def add_student_flow():
                 except ValueError:
                     print("Invalid input. Enter 1 or 2.")
 
-            stu_obj = Student(first_name, last_name, national_id, stu_id, degree, term, courses_code_list, stu_grades_list)
+            stu_obj = Student(first_name, last_name, national_id, stu_id, degree, major,
+                              term, courses_code_list, stu_grades_list)
             EduSysManager.add_student_to_system(stu_id, stu_obj)
             print("Student added successfully. ")
             print(stu_obj)
@@ -157,6 +180,7 @@ def remove_student_flow():
             print(e)
 
 def compare_students():
+    """Compares students based on their gpa and finds them with their student ID. At least 2 students must be in the system. """
     if len(EduSysManager.students) < 2:
         print("WARNING. There must be at least 2 students in the system to compare them. Please at least add 2 students.")
         return
@@ -283,14 +307,16 @@ operation_table = {"1":("get all subjects", get_all_subjects),
                    "2": ("add subject to the system", add_subject),
                    "3": ("remove subject from the system", remove_subject),
                    "4": ("compare two subjects by their unit", compare_subjects),
-                   "5": ("add student to the system", add_student_flow),
-                   "6": ("remove student from the system", remove_student_flow),
-                   "7": ("compare two students by their GPA", compare_students),
-                   "8": ("add course to the student profile", add_course_flow),
-                   "9": ("remove course from student profile", remove_course_flow),
-                   "10": ("find student(s) transcript", find_student),
-                   "11": ("sort students", sorted_output),
-                   "12": ("statistical analysis on students' grade", data_analysis)}
+                   "5": ("add major to the system", add_major_flow),
+                   "6": ("get all majors", get_all_majors),
+                   "7": ("add student to the system", add_student_flow),
+                   "8": ("remove student from the system", remove_student_flow),
+                   "9": ("compare two students by their GPA", compare_students),
+                   "10": ("add course to the student profile", add_course_flow),
+                   "11": ("remove course from student profile", remove_course_flow),
+                   "12": ("find student(s) transcript", find_student),
+                   "13": ("sort students", sorted_output),
+                   "14": ("statistical analysis on students' grade", data_analysis)}
 while True:
     print("="*55)
     for order, (label, _) in operation_table.items():

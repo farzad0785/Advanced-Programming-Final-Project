@@ -1,4 +1,5 @@
 import Utils
+
 class Subject(object):
     courses = {}
     def __init__(self, course_code, course_name, course_unit):
@@ -22,7 +23,7 @@ class Subject(object):
         return self._course_name
     @course_name.setter
     def course_name(self, new_name):
-        self._course_name = new_name
+        self._course_name = new_name.capitalize()
 
     @property
     def course_unit(self):
