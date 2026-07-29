@@ -1,4 +1,5 @@
 Student Management & Analytics System.
+
 A Python-based educational system management project built for an Advanced Programming course. 
 It manages student records, courses, and majors, and provides GPA calculation, transcript viewing, sorting, and statistical analysis of grades.
 
