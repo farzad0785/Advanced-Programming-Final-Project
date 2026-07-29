@@ -22,5 +22,8 @@ The project is organized into 8 modules, each with a single responsibility. Modu
   Entry point of the program; drives a command-based interactive session using a dictionary of available commands.
 
 Requirements: 1. Python 3.x | 2. NumPy
+
+Getting Started:
+python Main.py
 Follow the on-screen prompts to manage students, courses, and run analytics. Exit at any time via the program's exit command.
 Author: Ali asghar Rashidabadi — Computer Science
