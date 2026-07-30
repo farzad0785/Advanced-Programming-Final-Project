@@ -1,4 +1,5 @@
 #==========LIBRARIES==========
+import random
 from EduSysManager import EduSysManager
 from Student import Student
 from Subject import Subject
@@ -88,7 +89,7 @@ def compare_subjects():
 def add_major_flow():
     while True:
         try:
-            major = input("Enter Major name (Must be capitalized. e.g. Computer science): ")
+            major = input("Enter Major name (e.g. Computer Science): ")
             Major.add_major(major)
             print(major)
             print("Major added successfully. ")
@@ -116,7 +117,7 @@ def add_student_flow():
             national_id = input("Enter national ID (Must has only 11 digits. e.g. 01234567890): ")
             stu_id = input("Enter student ID (Must has only 8 digits. e.g. 12345678): ")
             degree = input("Enter degree (Must be capitalized. e.g. Associate, Bachelor, Master or Phd): ")
-            major = input("Enter major (Must be capitalized. e.g. Computer Science): ")
+            major = input("Enter major (e.g. Computer Science): ")
             term = input("Enter term (Must be an integer): ")
 
             courses_code_list, stu_grades_list = [], []
@@ -303,7 +304,100 @@ def data_analysis():
         except ValueError as e:
             print(e)
 
+#==========DEFAULT PARAMETERS==========
+def add_default_data():
+    """This flow adds default parameters to the system. it does not harm the inputs of the user."""
+
+    #add major
+    loaded_major, skipped_major = 0, 0
+    majors = ["Computer Science", "Mathematics", "Electrical Engineering"]
+    for m in majors:
+        try:
+            Major.add_major(m)
+            loaded_major += 1
+        except ValueError as e:
+            print(e)
+            skipped_major += 1
+
+    #Add subject
+    loaded_subject, skipped_subject = 0, 0
+    base_code = 10000000
+    base_letter = "Abc"
+    course_code, course_name, course_unit = [], [], []
+    for i in range(20):
+        course_code.append(f"{10000000+i}{base_letter}")
+        course_name = f"Course {i+1}"
+        course_unit = random.randint(1,4)
+        try:
+            sub_obj = Subject(course_code[i], course_name, course_unit)
+            loaded_subject += 1
+        except ValueError as e:
+            print(e)
+            skipped_subject += 1
+
+    #Add student
+    loaded_student, skipped_student = 0, 0
+    first_names = ["Ali", "Sara", "Reza", "Mina", "Amir", "Neda", "Kian", "Roya",
+                   "Hamed", "Leila", "Omid", "Parisa", "Saeed", "Nazanin", "Iman",
+                   "Fatemeh", "Mehdi", "Yasi", "Arash", "Golnaz"]
+    last_names = ["Ahmadi", "Karimi", "Rezai", "Hosseini", "Mousavi", "Jafari",
+                  "Sadeghi", "Ghorbani", "Rostami", "Naderi", "Zare", "Bagheri",
+                  "Farahani", "Kazemi", "Salehi", "Moradi", "Alavi", "Rahimi",
+                  "Shirazi", "Ebrahimi"]
+
+    degrees = ["Associate", "Bachelor", "Master", "Phd"]
+
+    for i in range(40):
+        name = random.choice(first_names)
+        l_name = random.choice(last_names)
+        national_id = f"{10000000000 + i}"
+        stu_id = f"{10000000 + i}"
+        degree = random.choice(degrees)
+        major = random.choice(majors)
+        term = random.randint(1, 8)
+
+        n_course = random.randint(3, 6)
+        stu_courses = random.sample(course_code, n_course)
+        stu_grade = []
+        for _ in range(n_course):
+            grade = random.random()*21
+            if grade > 20:
+                grade = 20
+            stu_grade.append(grade)
+
+
+        try:
+            stu_obj = Student(name, l_name, national_id, stu_id, degree, major, term, stu_courses, stu_grade)
+            EduSysManager.add_student_to_system(stu_id, stu_obj)
+            loaded_student += 1
+        except ValueError as e:
+            print(e)
+            skipped_student += 1
+    print(f"Loaded {loaded_major}/3 majors ({skipped_major} skipped).")
+    print(f"Loaded {loaded_subject}/20 subjects ({skipped_subject} skipped).")
+    print(f"Loaded {loaded_student}/40 students ({skipped_student} skipped).")
+    print("="*55)
+    print(f"Default test data loaded: {len(Major.all_majors)} majors, "
+          f"{len(Subject.courses)} courses, {EduSysManager.total_students} students. "
+          f"\nTo get the exact values please use functions below.")
+
+
+
+
 #==========MAIN SCOPE==========
+while True:
+    print("Welcome to the Student Management & Analytics System. ")
+    print("1. Start with an empty system (manual entry)")
+    print("2. Load default test data (3 majors, 40 courses, 20 students)")
+    startup_choice = input("Enter choice: ")
+    if startup_choice in ("1", "2"):
+        break
+    else:
+        print("Invalid input. Please enter 1 or 2.")
+
+if startup_choice == "2":
+    add_default_data()
+
 operation_table = {"1":("get all subjects", get_all_subjects),
                    "2": ("add subject to the system", add_subject_flow),
                    "3": ("remove subject from the system", remove_subject_flow),
